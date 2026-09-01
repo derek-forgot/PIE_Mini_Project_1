@@ -34,7 +34,7 @@ const int greenledPin = 11;    // the number of the blue LED pin
 const int blueledPin = 6;    // the number of the blue LED pin
 
 // Variables will change:
-int ledState = HIGH;        // the current state of the output pin
+int ledState = 0;        // the current state of the output pin
 int buttonState;            // the current reading from the input pin
 int lastButtonState = LOW;  // the previous reading from the input pin
 
@@ -48,6 +48,8 @@ void setup() {
   pinMode(redledPin, OUTPUT);
   pinMode(greenledPin, OUTPUT);
   pinMode(blueledPin, OUTPUT);
+  Serial.begin(9600);
+  Serial.println(ledState);
 
   // set initial LED state
   digitalWrite(redledPin, ledState);
@@ -76,19 +78,22 @@ void loop() {
     // if the button state has changed:
     if (reading != buttonState) {
       buttonState = reading;
-
-      // only toggle the LED if the new button state is HIGH
       if (buttonState == HIGH) {
-        ledState = !ledState;
+      ledState += 1;
+      if (ledState >=5) {
+        ledState = 0;
+        }
+      Serial.println(ledState);
       }
     }
   }
 
   // set the LED:
-  digitalWrite(redledPin, ledState);
-  digitalWrite(greenledPin, ledState);
-  digitalWrite(blueledPin, ledState);
+  //digitalWrite(redledPin, ledState);
+  //digitalWrite(greenledPin, ledState);
+  //digitalWrite(blueledPin, ledState);
 
   // save the reading. Next time through the loop, it'll be the lastButtonState:
   lastButtonState = reading;
 }
+

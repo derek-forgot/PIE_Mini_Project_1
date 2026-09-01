@@ -29,7 +29,9 @@
 
 // constants won't change. They're used here to set pin numbers:
 const int buttonPin = 8;  // the number of the pushbutton pin
-const int ledPin = 11;    // the number of the LED pin
+const int redledPin = 10;    // the number of the blue LED pin
+const int greenledPin = 11;    // the number of the blue LED pin
+const int blueledPin = 6;    // the number of the blue LED pin
 
 // Variables will change:
 int ledState = HIGH;        // the current state of the output pin
@@ -43,10 +45,14 @@ unsigned long debounceDelay = 50;    // the debounce time; increase if the outpu
 
 void setup() {
   pinMode(buttonPin, INPUT);
-  pinMode(ledPin, OUTPUT);
+  pinMode(redledPin, OUTPUT);
+  pinMode(greenledPin, OUTPUT);
+  pinMode(blueledPin, OUTPUT);
 
   // set initial LED state
-  digitalWrite(ledPin, ledState);
+  digitalWrite(redledPin, ledState);
+  digitalWrite(greenledPin, ledState);
+  digitalWrite(blueledPin, ledState);
 }
 
 void loop() {
@@ -79,7 +85,9 @@ void loop() {
   }
 
   // set the LED:
-  digitalWrite(ledPin, ledState);
+  digitalWrite(redledPin, ledState);
+  digitalWrite(greenledPin, ledState);
+  digitalWrite(blueledPin, ledState);
 
   // save the reading. Next time through the loop, it'll be the lastButtonState:
   lastButtonState = reading;

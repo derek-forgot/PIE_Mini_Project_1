@@ -52,9 +52,7 @@ void setup() {
   Serial.println(ledState);
 
   // set initial LED state
-  digitalWrite(redledPin, HIGH);
-  digitalWrite(greenledPin, HIGH);
-  digitalWrite(blueledPin, HIGH);
+  all_on();
 }
 
 void loop() {
@@ -84,10 +82,10 @@ void loop() {
         ledState = 0;
         }
       if (ledState == 0) {
-        //Function 1
+        all_on();
       }
       if (ledState == 1) {
-        //Function 2
+        all_off();
       }
       if (ledState == 2) {
         //Function 3
@@ -107,4 +105,15 @@ void loop() {
 
   // save the reading. Next time through the loop, it'll be the lastButtonState:
   lastButtonState = reading;
+}
+void all_off() {
+  digitalWrite(redledPin, LOW);
+  digitalWrite(greenledPin, LOW);
+  digitalWrite(blueledPin, LOW);
+}
+
+void all_on() {
+  digitalWrite(redledPin, HIGH);
+  digitalWrite(greenledPin, HIGH);
+  digitalWrite(blueledPin, HIGH);
 }

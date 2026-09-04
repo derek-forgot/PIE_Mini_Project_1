@@ -36,8 +36,8 @@
 
 // constants won't change. They're used here to set pin numbers:
 const int buttonPin = 8;  // the number of the pushbutton pin
-const int redledPin = 10;    // the number of the blue LED pin
-const int greenledPin = 11;    // the number of the blue LED pin
+const int redledPin = 11;    // the number of the blue LED pin
+const int greenledPin = 10;    // the number of the blue LED pin
 const int blueledPin = 9;    // the number of the blue LED pin
 unsigned long previousMillis = 0;
 
@@ -45,6 +45,7 @@ unsigned long previousMillis = 0;
 int ledState = 0;        // the current state of the output pin
 int buttonState;            // the current reading from the input pin
 int lastButtonState = LOW;  // the previous reading from the input pin
+int blink_speed;
 
 
 // the following variables are unsigned longs because the time, measured in
@@ -70,7 +71,7 @@ void setup() {
 void loop() {
   // read the state of the switch into a local variable:
   int reading = digitalRead(buttonPin);
-
+  
 
   // check to see if you just pressed the button
   // (i.e. the input went from LOW to HIGH), and you've waited long enough
@@ -104,21 +105,21 @@ void loop() {
         all_off();
       }
       if (ledState == 2) {
-        //Function 3
+        left_on();
       }
       if (ledState == 3) {
-        //Function 4
+        right_on();
       }
       if (ledState == 4) {
-        //Function 5
+        blinking();
       }
       Serial.println(ledState);
-   
+
       }
     }
   }
 
-
+  Serial.println(blink_speed);
   // save the reading. Next time through the loop, it'll be the lastButtonState:
   if (ledState == 4) {
     blinking();
@@ -136,11 +137,21 @@ void all_on() {
   digitalWrite(greenledPin, HIGH);
   digitalWrite(blueledPin, HIGH);
 }
-
+void left_on() {
+  digitalWrite(redledPin, HIGH);
+  digitalWrite(greenledPin, LOW);
+  digitalWrite(blueledPin, LOW);
+}
+void right_on() {
+  digitalWrite(redledPin, LOW);
+  digitalWrite(greenledPin, LOW);
+  digitalWrite(blueledPin, HIGH);
+}
 void blinking() {
   unsigned long currentMillis = millis();
+  int blink_speed = analogRead(A0) / 2;
 
-  if (currentMillis - previousMillis >= 1000) {
+  if (currentMillis - previousMillis >= blink_speed) {
     // save the last time you blinked the LED
     previousMillis = currentMillis;
 

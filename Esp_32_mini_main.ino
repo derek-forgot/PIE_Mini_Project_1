@@ -46,6 +46,7 @@ int ledState = 0;        // the current state of the output pin
 int buttonState;            // the current reading from the input pin
 int lastButtonState = LOW;  // the previous reading from the input pin
 int blink_speed;
+int bounce_tracker;
 
 
 // the following variables are unsigned longs because the time, measured in
@@ -95,7 +96,7 @@ void loop() {
       buttonState = reading;
       if (buttonState == HIGH) {
       ledState += 1;
-      if (ledState >=5) {
+      if (ledState >=6) {
         ledState = 0;
         }
       if (ledState == 0) {
@@ -113,6 +114,9 @@ void loop() {
       if (ledState == 4) {
         blinking();
       }
+      if (ledState == 5) {
+        blinking();
+      }
       Serial.println(ledState);
 
       }
@@ -123,7 +127,9 @@ void loop() {
   // save the reading. Next time through the loop, it'll be the lastButtonState:
   if (ledState == 4) {
     blinking();
-    
+  }
+  if (ledState == 5) {
+    bouncing();
   }
   lastButtonState = reading;
 }
@@ -148,6 +154,11 @@ void right_on() {
   digitalWrite(greenledPin, LOW);
   digitalWrite(blueledPin, HIGH);
 }
+void middle_on() {
+  digitalWrite(redledPin, LOW);
+  digitalWrite(greenledPin, HIGH);
+  digitalWrite(blueledPin, LOW);
+}
 void blinking() {
   unsigned long currentMillis = millis();
   int blink_speed = analogRead(34) / 2;
@@ -158,12 +169,41 @@ void blinking() {
   if (currentMillis - previousMillis >= blink_speed) {
     // save the last time you blinked the LED
     previousMillis = currentMillis;
-
+    
     // if the LED is off turn it on and vice-versa:
     if (digitalRead(redledPin) == LOW) {
       all_on();
     } else {
       all_off();
+    }
+  }
+}
+void bouncing() {
+  unsigned long currentMillis = millis();
+  int blink_speed = analogRead(34) / 2;
+  if (blink_speed < 5) {
+    blink_speed = 5;
+  }
+
+  if (currentMillis - previousMillis >= blink_speed) {
+    // save the last time you blinked the LED
+    previousMillis = currentMillis;
+    bounce_tracker += 1;
+    if (bounce_tracker >=4) {
+        bounce_tracker = 0;
+        }
+    // if the LED is off turn it on and vice-versa:
+    if (bounce_tracker == 0) { 
+      left_on();
+    } 
+    if (bounce_tracker == 1) { 
+      middle_on();
+    }
+    if (bounce_tracker == 2) { 
+      right_on();
+    }
+    if (bounce_tracker == 3) { 
+      middle_on();
     }
   }
 }

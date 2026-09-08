@@ -119,10 +119,11 @@ void loop() {
     }
   }
 
-  Serial.println(blink_speed);
+
   // save the reading. Next time through the loop, it'll be the lastButtonState:
   if (ledState == 4) {
     blinking();
+    
   }
   lastButtonState = reading;
 }
@@ -150,6 +151,9 @@ void right_on() {
 void blinking() {
   unsigned long currentMillis = millis();
   int blink_speed = analogRead(34) / 2;
+  if (blink_speed < 5) {
+    blink_speed = 5;
+  }
 
   if (currentMillis - previousMillis >= blink_speed) {
     // save the last time you blinked the LED

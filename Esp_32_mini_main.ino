@@ -35,19 +35,19 @@
 
 
 // constants won't change. They're used here to set pin numbers:
-const int buttonPin = 35;  // the number of the pushbutton pin
-const int redledPin = 32;    // the number of the blue LED pin
+const int buttonPin = 35;      // the number of the pushbutton pin
+const int redledPin = 32;      // the number of the blue LED pin
 const int greenledPin = 33;    // the number of the blue LED pin
-const int blueledPin = 25;    // the number of the blue LED pin
-unsigned long previousMillis = 0;
+const int blueledPin = 25;     // the number of the blue LED pin
+
 
 // Variables will change:
-int ledState = 0;        // the current state of the output pin
-int buttonState;            // the current reading from the input pin
-int lastButtonState = LOW;  // the previous reading from the input pin
-int blink_speed;
-int bounce_tracker;
-
+int ledState = 0;                 // the current state of the output pin
+int buttonState;                  // the current reading from the input pin
+int lastButtonState = LOW;        // the previous reading from the input pin
+int blink_speed;                  // The speed in ms of the LED blinking animation
+int bounce_tracker;               // Used internally in the bouncing animation function
+unsigned long previousMillis = 0  // Used to track time between
 
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
@@ -55,7 +55,7 @@ unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
 unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
 
 
-void setup() {
+void setup() { 
   pinMode(buttonPin, INPUT);
   pinMode(redledPin, OUTPUT);
   pinMode(greenledPin, OUTPUT);
